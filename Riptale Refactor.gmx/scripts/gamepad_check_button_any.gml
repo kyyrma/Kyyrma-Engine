@@ -1,5 +1,5 @@
 // Check if any button is pressed on a gamepad
-// gamepad_check_button_any(device_index)
+/// gamepad_check_button_any(device_index)
 
 var gp_index, gp_result;
 

@@ -46,6 +46,8 @@
     <script>scripts\apply_friction.gml</script>
     <script>scripts\chunk_create.gml</script>
     <script>scripts\bounce_against_object.gml</script>
+    <script>scripts\particle_create.gml</script>
+    <script>scripts\emitter_create.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\oController</object>
@@ -65,9 +67,9 @@
       <object>objects\parentMovingSolid</object>
       <object>objects\parentChunk</object>
       <object>objects\parentParticle</object>
+      <object>objects\parentEmitter</object>
     </objects>
     <objects name="Particles">
-      <object>objects\oSpark</object>
       <object>objects\oTrail</object>
     </objects>
   </objects>

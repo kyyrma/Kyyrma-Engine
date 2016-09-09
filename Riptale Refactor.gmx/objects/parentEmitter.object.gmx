@@ -25,19 +25,33 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Variables common to particles
+            <string>/// Emitter default settings
 
-image_speed = 0;
-
-fadeSpeed = 0.01;
-
-direction = 0;
-
-speed = 0;
-
-pattern = 0; // Pattern 0 = no pattern, 1 = wobble, 2 = fake gravity
-
-spin = 0;    // How much the particle should spin
+    particle_spr = sprSpark;
+    
+    particle_imgspd = 0.2;
+    
+    particle_pattern = 0;
+    
+    particle_dir = 0;
+    
+    particle_spd1 = 0;
+    
+    particle_spd2 = 0;
+    
+    particle_dir1 = 0;
+    
+    particle_dir2 = 0;
+    
+    particle_spin = 0;
+    
+    particle_fade = 0;
+    
+    duration = 0;
+    
+    frequency = 0;
+    
+    counter = 0;
 </string>
           </argument>
         </arguments>
@@ -60,29 +74,16 @@ spin = 0;    // How much the particle should spin
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Apply pattern to the particle movement
+            <string>/// Spawn particles
 
-switch(pattern)
+if counter = frequency
 {
-    case 1:
-        
-    direction += random_range(-25, 25);
-        
-    break;
-        
-    case 2:
+
+    particle_create(x, y, particle_spr, particle_imgspd, 
+    particle_pattern, random_range(particle_dir1, particle_dir2), random_range(particle_spd1, particle_spd2), particle_spin, particle_fade);
     
-    y += globalGravity;
-        
-    break
-        
-}
-
-// Spin the particle if spinning is on
-
-if spin != 0
-{
-    image_angle += spin;
+    counter = 0;
+    
 }
 </string>
           </argument>
@@ -104,11 +105,13 @@ if spin != 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Fade the particle
+            <string>/// Counter for duration and particle freqency
 
-image_alpha -= fadeSpeed;
+counter += 1;
 
-if image_alpha = 0
+duration -= 1;
+
+if duration = 0
 {
     instance_destroy();
 }

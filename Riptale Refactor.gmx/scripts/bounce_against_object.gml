@@ -1,4 +1,4 @@
-// bounce_against_object(obj)
+/// bounce_against_object(obj)
 
 // First calculate the object angle
 

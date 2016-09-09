@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>/// Set variables
 
+event_inherited();
+
 image_speed = 0.5;
 
 fadeSpeed = 0.01;

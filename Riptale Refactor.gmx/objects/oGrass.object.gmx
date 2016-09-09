@@ -25,20 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Move when hero goes by
+            <string>/// Move and spawn particles when hero goes by
 
 event_inherited();
 
-if oHero.x_speed &gt; 0
+if abs(oHero.x_speed) &gt; 0
 {
-    image_speed = 0.2;
-    instance_create(oHero.x, oHero.y + sprite_height / 2, oSpark);
-}
+    image_speed = sign(oHero.x_speed) * 0.2;
+    
+    particle_create(oHero.x, oHero.y + oHero.sprite_height/2, 
+    sprSpark, 0.5, 1, 90, random(1), 0, 0.01);
 
-if oHero.x_speed &lt; 0
-{
-    image_speed = -0.2;
-    instance_create(oHero.x, oHero.y + sprite_height / 2, oSpark);
 }
 
 </string>

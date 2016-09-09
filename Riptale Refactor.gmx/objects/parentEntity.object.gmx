@@ -149,10 +149,12 @@ if instance_place(x, y, parentDamage) &amp;&amp; lastHitBy != instance_place(x, 
             flinchTimer = flinchMax;
             show_debug_message(hitPoints);
         }
+        
         else
         {
             hitPoints = 0;
         }
+    
     }
 
 }

@@ -431,7 +431,9 @@ if mouse_check_button_pressed(mb_left)
 if mouse_check_button_pressed(mb_right)
 {
 
-    chunk_create(mouse_x, mouse_y, sprSkullChunk)
+    //chunk_create(mouse_x, mouse_y, sprSkullChunk)
+    emitter_create(mouse_x, mouse_y, sprPot, sprSkullChunk, 
+    0.5, 2, 0, 180, 0, 1, 5, 0.01, 60, 300);
 
 }
 
