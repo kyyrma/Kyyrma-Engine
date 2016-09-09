@@ -3,9 +3,9 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-1000</depth>
+  <depth>-2000</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>parentEntity</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -27,31 +27,38 @@
             <kind>1</kind>
             <string>/// Emitter default settings
 
-    particle_spr = sprSpark;
-    
-    particle_imgspd = 0.2;
-    
-    particle_pattern = 0;
-    
-    particle_dir = 0;
-    
-    particle_spd1 = 0;
-    
-    particle_spd2 = 0;
-    
-    particle_dir1 = 0;
-    
-    particle_dir2 = 0;
-    
-    particle_spin = 0;
-    
-    particle_fade = 0;
-    
-    duration = 0;
-    
-    frequency = 0;
-    
-    counter = 0;
+event_inherited();
+
+particle_spr = sprSpark;            // The sprite for the particle to emit
+
+particle_imgspd = 0;                // The image_speed for the particle to emit
+
+particle_img = 0;                   // The image_index for the particle to emit
+
+particle_pattern = 0;               // The pattern for the particle to emit
+
+
+particle_spd1 = 0;                  // Particle speed range 
+
+particle_spd2 = 0;
+
+particle_dir1 = 0;                  // Particle direction range
+
+particle_dir2 = 0;
+
+
+particle_spin = 0;                  // Speed the particle should spin
+
+particle_fade = 0;                  // How fast the particle should fade
+
+duration = 0;                       // How long should the emitter emit
+
+frequency = 0;                      // How often should the emitter emit
+
+counter = 0;                        // Counter used for frequency calculation
+
+
+emitter_active = true;              // If the emitter is on
 </string>
           </argument>
         </arguments>
@@ -76,13 +83,63 @@
             <kind>1</kind>
             <string>/// Spawn particles
 
-if counter = frequency
+event_inherited();
+
+if counter = frequency &amp;&amp; emitter_active = true
 {
 
-    particle_create(x, y, particle_spr, particle_imgspd, 
+    particle_create(x, y, particle_spr, particle_img, particle_imgspd, 
     particle_pattern, random_range(particle_dir1, particle_dir2), random_range(particle_spd1, particle_spd2), particle_spin, particle_fade);
     
+}
+
+// Counter for frequency
+
+if counter &lt; frequency
+{
+    counter += 1;
+}
+else
+{
     counter = 0;
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Counter for duration and fade out
+
+if duration &gt; 0
+{
+    duration -= 1;
+}
+
+if duration = 0 
+{
+
+    image_alpha -= 0.1;
+    
+    if image_alpha = 0
+    {
+        instance_destroy();
+    }
     
 }
 </string>
@@ -105,41 +162,19 @@ if counter = frequency
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Counter for duration and particle freqency
+            <string>/// On trigger
 
-counter += 1;
-
-duration -= 1;
-
-if duration = 0
+if triggered = true
 {
-    instance_destroy();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Draw particle
+    show_debug_message("Emitter " + object_get_name(id.object_index) + " " + string(id) + " toggled.")
+    emitter_active = !emitter_active;
+    
+    // Hide or show
+    
+    draw = emitter_active;
 
-draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
+}
+
 </string>
           </argument>
         </arguments>

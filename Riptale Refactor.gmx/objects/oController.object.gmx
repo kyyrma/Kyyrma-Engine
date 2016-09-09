@@ -37,6 +37,8 @@ globalvar view_yview_noscale;
 
 globalvar fullScreen;
 
+globalvar debugMode;
+
 // Input related
 
 globalvar gamepadConnected;
@@ -119,6 +121,7 @@ globalFriction     = 1;
 gamepadConnected   = 0;                        // Is gamepad connected
 inputMethod        = INPUT_METHOD.keyboard     // Input method (keyboard, gamepad)
 
+debugMode          = 0;
 
 view_wview_noscale = 640;
 view_yview_noscale = 360;
@@ -411,6 +414,15 @@ with parentMovingSolid
             <kind>1</kind>
             <string>/// Debug stuff
 
+// Toggle debug mode
+
+if keyboard_check_pressed(ord('P'))
+{
+    debugMode = !debugMode;
+    show_debug_message("Debug mode is" + string(debugMode));
+}
+
+
 // Reset room on R
 
 if keyboard_check_pressed(ord('R'))
@@ -426,14 +438,14 @@ if mouse_check_button_pressed(mb_left)
     oHero.y_speed = 0;
     oHero.x = mouse_x;
     oHero.y = mouse_y;
+    
+    show_debug_message("Teleporting hero to X = " + string(mouse_x) + " Y = " + string(mouse_y));
 }
 
 if mouse_check_button_pressed(mb_right)
 {
 
     //chunk_create(mouse_x, mouse_y, sprSkullChunk)
-    emitter_create(mouse_x, mouse_y, sprPot, sprSkullChunk, 
-    0.5, 2, 0, 180, 0, 1, 5, 0.01, 60, 300);
 
 }
 

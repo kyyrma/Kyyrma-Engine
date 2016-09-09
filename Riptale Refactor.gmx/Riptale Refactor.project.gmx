@@ -35,6 +35,9 @@
       <sprite>sprites\sprCrate32</sprite>
       <sprite>sprites\sprGrass</sprite>
     </sprites>
+    <sprite>sprites\sprSmoke</sprite>
+    <sprite>sprites\sprFire</sprite>
+    <sprite>sprites\sprSwitch</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -48,6 +51,8 @@
     <script>scripts\bounce_against_object.gml</script>
     <script>scripts\particle_create.gml</script>
     <script>scripts\emitter_create.gml</script>
+    <script>scripts\trigger.gml</script>
+    <script>scripts\move_towards_target.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\oController</object>
@@ -56,21 +61,26 @@
     <object>objects\oSwordAttack</object>
     <objects name="Decoration">
       <object>objects\oPot</object>
+      <object>objects\oSwitch</object>
       <object>objects\oCrate32</object>
+      <object>objects\oDoor</object>
       <object>objects\oGrass</object>
     </objects>
     <objects name="Parents">
       <object>objects\parentSolid</object>
       <object>objects\parentEntity</object>
+      <object>objects\parentDoor</object>
       <object>objects\parentDamage</object>
       <object>objects\parentMoving</object>
       <object>objects\parentMovingSolid</object>
       <object>objects\parentChunk</object>
       <object>objects\parentParticle</object>
       <object>objects\parentEmitter</object>
+      <object>objects\parentSwitch</object>
     </objects>
     <objects name="Particles">
       <object>objects\oTrail</object>
+      <object>objects\oFire</object>
     </objects>
   </objects>
   <rooms name="rooms">

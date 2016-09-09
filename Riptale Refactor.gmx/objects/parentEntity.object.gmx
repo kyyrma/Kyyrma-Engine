@@ -48,12 +48,25 @@ facing              = 1;        // If the object is heading left (-1) or right (
 
 collision           = 0;        // Will there be a collision with this object?
 
-x_center            = x + sprite_width / 2; // Center x
-y_center            = y + sprite_width / 2; // Center y
+x_initial           = x;
+y_initial           = y;
+
+x_center            = x - sprite_xoffset + sprite_width / 2; // Center x
+y_center            = y - sprite_xoffset + sprite_width / 2; // Center y
 
 image_speed         = 0;        // Default animation speed
 
 image_alpha         = 1;        // Image alpha
+
+triggered           = false;    // Is the entity triggered?
+
+triggerable         = false;    // Should the entity be triggerable?
+triggerByDamage     = false;    // Should the entity trigger on damage?
+triggerByTouch      = false;    // Should the entity trigger on touch?
+triggerByDestroy    = false;    // Should the entity trigger on destroy?
+
+target[9]           = noone;    // Target(s) to trigger
+
 
 
 </string>
@@ -87,6 +100,42 @@ if chunk != noone
         chunk_create(x_center - sprite_xoffset, y_center - sprite_yoffset, chunk);
     }
 }
+
+// Trigger if applicable
+
+if triggerByDestroy = true
+{
+    triggered = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Toggle triggered off
+
+if triggered = true
+{
+    //show_debug_message(string(id) + " is no longer triggered.")
+    triggered = false;
+}
 </string>
           </argument>
         </arguments>
@@ -111,8 +160,19 @@ if chunk != noone
             <kind>1</kind>
             <string>/// Counters
 
+// Counter for flinching
+
 if flinchTimer &gt; 0
-flinchTimer -= 1;
+{
+    flinchTimer -= 1;
+}
+
+// Clear the last hit by variable once flinching is over
+
+if flinchTimer = 0
+{
+    lastHitBy = noone;
+}
 </string>
           </argument>
         </arguments>
@@ -135,19 +195,25 @@ flinchTimer -= 1;
             <kind>1</kind>
             <string>/// Take damage from damage sources
 
+// Only take damage if you just didn't take damage from the same source
+
 if instance_place(x, y, parentDamage) &amp;&amp; lastHitBy != instance_place(x, y, parentDamage)
 {
 
     lastHitBy = instance_place(x, y, parentDamage);
 
+    // -1 would mean the entity is indestructible
+    
     if hitPoints != -1
     {
     
         if hitPoints - lastHitBy.attackPower &gt; 0
         {
+            
             hitPoints -= lastHitBy.attackPower;
             flinchTimer = flinchMax;
-            show_debug_message(hitPoints);
+            show_debug_message(object_get_name(id.object_index) + " " + string(id) + " has " + string(hitPoints) + " hitpoints.");
+            
         }
         
         else
@@ -156,6 +222,14 @@ if instance_place(x, y, parentDamage) &amp;&amp; lastHitBy != instance_place(x, 
         }
     
     }
+            
+// Trigger if applicable
+
+if triggerByDamage = true
+{
+    triggered = true;
+    flinchTimer = flinchMax;
+}
 
 }
 </string>
@@ -182,7 +256,43 @@ if instance_place(x, y, parentDamage) &amp;&amp; lastHitBy != instance_place(x, 
 
 if hitPoints = 0
 {
+    show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is destroyed!");
     instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Conduct trigger onwards
+
+if triggered = true
+{
+    for (i = 0; i &lt; 9; i += 1)
+    {
+ 
+        if target[i] != 0
+        {
+            trigger(target[i]);
+            show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is triggering " + object_get_name(target[i].object_index) + " " +string(target[i]))
+        }
+        
+    }
 }
 </string>
           </argument>
@@ -206,7 +316,7 @@ if hitPoints = 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Draw own sprite if visible
+            <string>/// Draw own sprite if visible
 
 if draw = true
 {
@@ -216,6 +326,27 @@ if draw = true
 if draw = true &amp;&amp; flinchTimer &gt; 0
 {
     draw_sprite_ext(sprite_index, image_index, x, y, facing, image_yscale, image_angle + random_range(-3, 3), choose(c_white,c_red), image_alpha);
+}
+
+/// Draw target connections if debugmode is on
+
+if debugMode = 1
+{
+    
+    for (i = 0; i &lt; 9; i += 1)
+    {
+ 
+        if target[i] != 0
+        {
+            
+            draw_set_color(c_red)
+            
+            draw_line(x_center, y_center, target[i].x_center, target[i].y_center);
+            
+        }
+        
+    }
+    
 }
 </string>
           </argument>

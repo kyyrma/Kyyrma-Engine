@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-1000</depth>
+  <depth>-2000</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -27,17 +27,17 @@
             <kind>1</kind>
             <string>/// Variables common to particles
 
-image_speed = 0;
+image_speed     = 0;        // Animation speed
 
-fadeSpeed = 0.01;
+fadeSpeed       = 0.01;     // How fast the particle fades
 
-direction = 0;
+direction       = 0;        // Direction of the particle
 
-speed = 0;
+speed           = 0;        // Speed of the particle
 
-pattern = 0; // Pattern 0 = no pattern, 1 = wobble, 2 = fake gravity
+pattern         = 0;        // Pattern 0 = no pattern, 1 = wobble, 2 = fake gravity
 
-spin = 0;    // How much the particle should spin
+spin            = 0;        // How much the particle should spin
 </string>
           </argument>
         </arguments>
@@ -64,9 +64,10 @@ spin = 0;    // How much the particle should spin
 
 switch(pattern)
 {
+
     case 1:
         
-    direction += random_range(-25, 25);
+    direction += random_range(-30, 30);
         
     break;
         
@@ -74,13 +75,13 @@ switch(pattern)
     
     y += globalGravity;
         
-    break
+    break;
         
 }
 
 // Spin the particle if spinning is on
 
-if spin != 0
+if spin = true
 {
     image_angle += spin;
 }
