@@ -65,9 +65,9 @@ triggerByDamage     = false;    // Should the entity trigger on damage?
 triggerByTouch      = false;    // Should the entity trigger on touch?
 triggerByDestroy    = false;    // Should the entity trigger on destroy?
 
+triggerConducted    = false;    // Have I already conducted my trigger?
+
 target[9]           = noone;    // Target(s) to trigger
-
-
 
 </string>
           </argument>
@@ -105,7 +105,18 @@ if chunk != noone
 
 if triggerByDestroy = true
 {
-    triggered = true;
+
+    for (i = 0; i &lt; 9; i += 1)
+    {
+ 
+        if target[i] != 0 &amp;&amp; instance_exists(target[i])
+        {
+            trigger(target[i]);
+            show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is triggering " + object_get_name(target[i].object_index) + " " +string(target[i]))
+        }
+        
+    }
+
 }
 </string>
           </argument>
@@ -131,10 +142,77 @@ if triggerByDestroy = true
             <kind>1</kind>
             <string>/// Toggle triggered off
 
+if triggered = true &amp;&amp; triggerConducted = true
+{
+    triggered = false;
+    triggerConducted = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Destroy if hit points reach 0
+
+if hitPoints = 0
+{
+    show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is destroyed!");
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Conduct trigger onwards
+
 if triggered = true
 {
-    //show_debug_message(string(id) + " is no longer triggered.")
-    triggered = false;
+    for (i = 0; i &lt; 9; i += 1)
+    {
+ 
+        if target[i] != 0 &amp;&amp; instance_exists(target[i])
+        {
+            trigger(target[i]);
+            show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is triggering " + object_get_name(target[i].object_index) + " " +string(target[i]))
+        }
+        
+    }
+    
+    triggerConducted = true;
+    
 }
 </string>
           </argument>
@@ -142,6 +220,32 @@ if triggered = true
       </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Update variables
+
+x_center            = x - sprite_xoffset + sprite_width / 2; // Center x
+y_center            = y - sprite_xoffset + sprite_width / 2; // Center y
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -236,68 +340,6 @@ if triggerByDamage = true
           </argument>
         </arguments>
       </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Destroy if hit points reach 0
-
-if hitPoints = 0
-{
-    show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is destroyed!");
-    instance_destroy();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Conduct trigger onwards
-
-if triggered = true
-{
-    for (i = 0; i &lt; 9; i += 1)
-    {
- 
-        if target[i] != 0
-        {
-            trigger(target[i]);
-            show_debug_message(object_get_name(id.object_index) + " " + string(id) + " is triggering " + object_get_name(target[i].object_index) + " " +string(target[i]))
-        }
-        
-    }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
     </event>
     <event eventtype="8" enumb="0">
       <action>
@@ -336,7 +378,7 @@ if debugMode = 1
     for (i = 0; i &lt; 9; i += 1)
     {
  
-        if target[i] != 0
+        if target[i] != 0 &amp;&amp; instance_exists(target[i])
         {
             
             draw_set_color(c_red)

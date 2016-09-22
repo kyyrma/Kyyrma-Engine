@@ -44,12 +44,13 @@ terminalVelocity    = 7;        // Terminal velocity
 
 attackDelay         = 0;        // Counter for attack delay
 attackDelayMax      = 10;       // Maximum attack delay
+attackPower         = 1;
 
 sprite_indexLast    = sprite_index // Used to check for sprite index updates
 
 team = TEAM.ally;
 
-attackPower         = 1;
+
 
 // Initialize states
 
@@ -86,7 +87,7 @@ heroStateLast = heroState;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Move on x-axis
+            <string>/// Add x_speed on move keys
 
 event_inherited();
         
@@ -180,6 +181,7 @@ switch(heroState)
                 show_debug_message("Hero state is FALLING.")
                 heroState = HERO_STATE.falling;
             }
+
         
         break;
 
@@ -439,6 +441,12 @@ if draw = 1
     draw_sprite_ext(sprHeroIdleArm, image_index, x, y, facing, 1, 0, c_white, 1);
 }
 
+if debugMode = true
+{
+    draw_set_color(c_red);
+    draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, false);
+}
+    
 </string>
           </argument>
         </arguments>

@@ -56,10 +56,7 @@ grounded            = 0;        // If the object is on ground
 
 bounce              = 0;        // If the object will bounce on the ground
 
-onMovingPlatform    = 0;        // Flag if the object is on a moving platform
-
 terminalVelocity    = 7;        // Highest possible fall speed
-
 </string>
           </argument>
         </arguments>

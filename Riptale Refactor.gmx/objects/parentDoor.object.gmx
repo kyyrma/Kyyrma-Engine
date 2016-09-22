@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>parentSolid</parentName>
+  <parentName>parentMovingSolid</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Set breakable variables
+            <string>/// Set mover variables
 
 event_inherited();
 
@@ -35,6 +35,8 @@ y_target = y;
 moveSpeed = 0.5;
 
 open = false;
+
+applyGravity = 0;
 </string>
           </argument>
         </arguments>
@@ -92,9 +94,12 @@ else
             <kind>1</kind>
             <string>/// On trigger
 
+event_inherited();
+
 if triggered = true
 {
     open = !open;
+
 }
 </string>
           </argument>

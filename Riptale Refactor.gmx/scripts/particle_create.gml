@@ -1,4 +1,5 @@
 ///particle_create(x, y, spr, img, imgspeed, pattern, dir, spd, spin, fadespeed)
+// Patterns: 0 = no pattern, 1 = random floating, 2 = fake gravity
 
 particleid = instance_create(argument0, argument1, parentParticle);
 

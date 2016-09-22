@@ -89,6 +89,13 @@ enum TEAM
     neutral,
     enemy
 }
+
+enum DOOR_STATE
+{
+    open,
+    opening,
+    closed
+}
 </string>
           </argument>
         </arguments>
@@ -359,7 +366,7 @@ with parentMoving
     // Check and move on y-axis
 
     move_contact_y();
-
+    
     // Apply gravity
     
     apply_gravity();
@@ -367,12 +374,14 @@ with parentMoving
     // Apply friction
     
     apply_friction();
-    
+
+   
 }
 
 
 with parentMovingSolid
 {
+
 
     // Check and move on x-axis
     
@@ -381,7 +390,7 @@ with parentMovingSolid
     // Check and move on y-axis
 
     move_contact_y();
-
+    
     // Apply gravity
     
     apply_gravity();
@@ -389,7 +398,8 @@ with parentMovingSolid
     // Apply friction
     
     apply_friction();
-    
+
+
 }
 
 </string>

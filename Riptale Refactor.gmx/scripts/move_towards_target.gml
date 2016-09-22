@@ -2,20 +2,30 @@
 
     if x < argument0
     {
-    x += argument2;
+    x_speed = argument2;
     }
     
-    if x > argument0
+    else if x > argument0
     {
-    x -= argument2;
+    x_speed = -argument2;
     }
     
+    else
+    {
+    x_speed = 0;
+    }
+        
     if y < argument1
     {
-    y += argument2;
+    y_speed = argument2;
     }
     
-    if y > argument1
+    else if y > argument1
     {
-    y -= argument2;
+    y_speed = -argument2;
+    }
+    
+    else
+    {
+    y_speed = 0;
     }

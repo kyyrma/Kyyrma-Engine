@@ -38,8 +38,6 @@ hitPoints = 5;
 chunk = sprCrate32Chunk;
 
 chunkAmount = 4;
-
-
 </string>
           </argument>
         </arguments>
